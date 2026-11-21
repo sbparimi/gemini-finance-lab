@@ -19,7 +19,10 @@ export default function Explore(){
    {role:"Regulatory Reporting",topic:"Risk, audit & regulatory controls",desc:"COREP, FINREP or US reporting workflows, data lineage, reconciliations and validation evidence."},
    {role:"Finance Transformation",topic:"Finance transformation & data",desc:"R2R, P2P, O2C, operating models, process diagnostics, benefits cases and roadmap design."},
    {role:"Transaction Services / FDD",topic:"Transaction services & due diligence",desc:"Quality of earnings, working capital, net debt, cash conversion and evidence-backed red flags."},
-   {role:"Finance Strategy / CFO Advisory",topic:"Finance consulting & strategy",desc:"MECE issue trees, value drivers, strategic options, quantified opportunities and board-ready decisions."}
+   {role:"Finance Strategy / CFO Advisory",topic:"Finance consulting & strategy",desc:"MECE issue trees, value drivers, strategic options, quantified opportunities and board-ready decisions."},
+   {role:"Order-to-Cash / Collections Lead",topic:"Order-to-Cash, AR & collections",desc:"DSO, cash conversion, enterprise collections, dispute root causes, credit controls, remittance matching and AI-assisted outreach."},
+   {role:"Finance Automation Lead",topic:"Finance automation & AI operations",desc:"Map finance workflows, prioritise automation by value and risk, design reconciliations, close workflows and human-in-the-loop controls."},
+   {role:"FinOps for AI Practitioner",topic:"FinOps for cloud & AI",desc:"FOCUS data, cloud allocation, token and inference costs, GPU utilisation, AI unit economics, showback and value realisation."}
   ];
 
  const results=useMemo(()=>prompts.filter(p=>(cat==="All"||p.category===cat)&&(industry==="All"||p.industry.split(" · ").includes(industry))&&(topic==="All"||p.topic===topic)&&(lens==="All"||p.advisoryLens.includes(lens))&&[p.title,p.desc,p.category,p.topic,p.advisoryLens.join(" "),p.industry,p.role,...p.tags,...p.requiredInputs].join(" ").toLowerCase().includes(q.toLowerCase())),[q,cat,industry,topic,lens]);
@@ -32,7 +35,7 @@ export default function Explore(){
    <div className="role-pathways-grid">{rolePaths.map(r=><button type="button" key={r.role} className={topic===r.topic?"role-path-card selected":"role-path-card"} onClick={()=>setTopic(topic===r.topic?"All":r.topic)}><strong>{r.role}</strong><span>{r.desc}</span><em>{topic===r.topic?"Selected · clear":"Explore role prompts ↗"}</em></button>)}</div>
   </section>
   <div className="toolbar" style={{flexWrap:"wrap"}}>
-   <input className="field" style={{flex:"2 1 280px"}} aria-label="Search finance prompts" placeholder="Search reconciliation, strategy, diligence, cash forecasting, audit, AP, FX…" value={q} onChange={e=>setQ(e.target.value)}/>
+   <input className="field" style={{flex:"2 1 280px"}} aria-label="Search finance prompts" placeholder="Search O2C, DSO, collections, FOCUS, tokenomics, GPU, AI unit economics, audit…" value={q} onChange={e=>setQ(e.target.value)}/>
    <select className="field" aria-label="Filter by workflow" value={cat} onChange={e=>setCat(e.target.value)}>{cats.map(c=><option key={c} value={c}>{c==="All"?"All workflows":c}</option>)}</select>
    <select className="field" aria-label="Filter by industry" value={industry} onChange={e=>setIndustry(e.target.value)}>{industries.map(c=><option key={c} value={c}>{c==="All"?"All industries":c}</option>)}</select>
    <select className="field" aria-label="Filter by finance topic" value={topic} onChange={e=>setTopic(e.target.value)}>{topics.map(c=><option key={c} value={c}>{c==="All"?"All finance topics":c}</option>)}</select>
