@@ -1,19 +1,19 @@
-# Gemini Finance Lab
+# AI Finance Studio
 
-A professional practice companion for the **AI-Powered Finance Automation with Google Sheets & Gemini** course.
+A modern finance prompt workspace for banking, accounting, treasury, FP&A and audit professionals.
 
 ## Product principle
 **Gemini assists. Google Sheets calculates. Humans verify.**
 
 ## Current feature-branch milestone
-- Responsive landing page and navigation.
+- Responsive SaaS landing experience and application workspace dashboard.
 - Searchable professional finance prompt library with 22 copy-ready templates.
 - Workflow, industry and finance-role discovery filters.
 - Eight-unit course map.
 - Prompt detail pages showing role, required inputs, full prompt, deliverables, validation checklist and professional limitations.
 - Text-first Prompt Studio with optional browser voice input; learner can dictate a short task and receive a structured prompt.
 - Four finance simulation entry points and six project overviews.
-- Automated specialist QA workflow for proposal coverage, prompt structure, route smoke tests, Prompt Studio text/voice controls and dependency versions.
+- Separate automated UX/accessibility and finance-domain review gates; production release remains blocked until all checks pass.
 
 ## Prompt quality standard
 Every professional template must:
