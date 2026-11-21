@@ -49,7 +49,7 @@ export default function Studio(){
     <p className="lead">Describe the finance task in your own words. A short sentence is enough to start. Type it or use voice input; add context and controls only when they matter.</p>
     <div className="twocol" style={{marginTop:28}}>
       <section className="card">
-        <h3>Your finance request</h3>
+        <h2>Your finance request</h2>
         <label className="meta" htmlFor="finance-brief">What do you want to accomplish? <span style={{color:"#b54747"}}>Required</span></label>
         <textarea id="finance-brief" className="field" style={{width:"100%",minHeight:150,margin:"8px 0 10px"}} placeholder="Example: I need to reconcile this month's bank statement against the general ledger and identify unmatched transactions." value={brief} onChange={e=>setBrief(e.target.value)}/>
         <div style={{display:"flex",alignItems:"center",gap:12,flexWrap:"wrap"}}>
