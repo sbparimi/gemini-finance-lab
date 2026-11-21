@@ -1,5 +1,7 @@
 name: Finance Product QA Agent
 on:
+  push:
+    branches: [feature/finance-lab-mvp]
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
@@ -57,9 +59,11 @@ jobs:
             const body = fs.existsSync(reportPath)
               ? fs.readFileSync(reportPath, 'utf8')
               : '# Finance Product QA Agent\n\nReview report unavailable because an earlier build or setup step failed. Inspect the workflow logs.';
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body
-            });
+            if (context.issue.number) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body
+              });
+            }
