@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
   });
 
   const { data } = await supabase.auth.getClaims();
-  const protectedPath = request.nextUrl.pathname.startsWith("/account") || request.nextUrl.pathname.startsWith("/saved");
+  const protectedPath = request.nextUrl.pathname.startsWith("/workspace") || request.nextUrl.pathname.startsWith("/account") || request.nextUrl.pathname.startsWith("/saved");
   if (protectedPath && !data?.claims) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
