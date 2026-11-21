@@ -39,8 +39,8 @@ const missing=safetyRules.filter(x=>!data.toLowerCase().includes(x.toLowerCase()
 add("Hallucination and control guardrails",missing.length?"FAIL":"PASS",missing.length?`Missing guardrail text: ${missing.join(", ")}`:"Prompts explicitly require evidence, missing-input stops, traceability and human review");
 
 const pkg=JSON.parse(read("package.json"));
-add("Dependency security",pkg.dependencies?.next==="15.5.7"?"PASS":"FAIL",`Next.js dependency: ${pkg.dependencies?.next}`);
-add("Dependency security",pkg.dependencies?.react==="19.1.2"?"PASS":"FAIL",`React dependency: ${pkg.dependencies?.react}`);
+add("Dependency security",pkg.dependencies?.next==="15.5.29"?"PASS":"FAIL",`Next.js dependency: ${pkg.dependencies?.next}`);
+add("Dependency security",pkg.dependencies?.react==="19.1.10"?"PASS":"FAIL",`React dependency: ${pkg.dependencies?.react}`);
 
 let browser;
 try{
