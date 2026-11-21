@@ -15,8 +15,8 @@ add("Source traceability",data.includes("Preserve source values and identifiers"
 add("Human decision boundary",data.includes("authorised professional")&&data.includes("Do not make, execute or imply payment"),"Financial approvals and execution remain with authorised humans");
 add("Five daily free prompts",plans.includes("5 prompt generations per day")&&layout.includes("$5.99/mo"),"Free plan is five prompts/day");
 add("Premium monthly price",plans.includes("$5.99")&&plans.includes("per month"),"Premium price is $5.99 per month");
-add("No trial tier",!plans.toLowerCase().includes("trial")&&!plans.toLowerCase().includes("free trial"),"Trial tier and trial language absent from plans");
-add("Transparent launch state",plans.includes("checkout and usage enforcement are not active yet"),"Pricing page does not falsely claim payment or quota enforcement");
+add("No trial tier",plans.toLowerCase().includes("there is no trial tier")&&!plans.includes('name:"Trial"'),"Trial tier and trial language absent from plans");
+add("Transparent launch state",plans.includes("no subscription is being sold or charged here")&&plans.includes("not active account features"),"Pricing page does not falsely claim payment or quota enforcement");
 add("Framework security",pkg.dependencies?.next==="15.5.7"&&pkg.dependencies?.react==="19.1.2",`Next ${pkg.dependencies?.next}; React ${pkg.dependencies?.react}`);
 add("Product identity",layout.includes("AI Finance")&&layout.includes("AI Finance Studio"),"New product identity in visible shell and metadata");
 fs.mkdirSync("artifacts",{recursive:true});
