@@ -1,0 +1,130 @@
+name: AI Finance Studio — Independent Release Review
+on:
+  push:
+    branches: [feature/finance-lab-mvp]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+jobs:
+  build:
+    name: Build and type safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Dependency vulnerability audit
+        run: npm audit --audit-level=high
+      - name: TypeScript validation
+        run: npm run lint
+      - name: Production build validation
+        run: npm run build
+  ux-review:
+    name: Independent UX and accessibility review
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Build review candidate
+        run: npm run build
+      - name: Start candidate
+        run: |
+          npm run start > /tmp/ai-finance-studio.log 2>&1 &
+          for i in $(seq 1 60); do
+            if curl -fsS http://127.0.0.1:3000 >/dev/null; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:3000 >/dev/null
+      - name: Run independent UX review
+        run: node scripts/review/ux-review.mjs
+      - name: Upload visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-finance-studio-ux-evidence
+          path: artifacts/
+          if-no-files-found: ignore
+  finance-domain-review:
+    name: Independent finance domain and commercial review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Review prompt controls, pricing and product claims
+        run: node scripts/review/finance-domain-review.mjs
+      - name: Upload finance review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-finance-studio-finance-review
+          path: artifacts/finance-domain-review.json
+          if-no-files-found: ignore
+  release-review-gate:
+    name: Independent reviewers approval gate
+    runs-on: ubuntu-latest
+    needs: [build, ux-review, finance-domain-review]
+    if: always()
+    steps:
+      - name: Require all reviewers to pass
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          UX_RESULT: ${{ needs.ux-review.result }}
+          FINANCE_RESULT: ${{ needs.finance-domain-review.result }}
+        run: |
+          echo "Build: $BUILD_RESULT"
+          echo "Independent UX reviewer: $UX_RESULT"
+          echo "Independent finance domain reviewer: $FINANCE_RESULT"
+          if [ "$BUILD_RESULT" != "success" ] || [ "$UX_RESULT" != "success" ] || [ "$FINANCE_RESULT" != "success" ]; then
+            echo "RELEASE BLOCKED — all independent review gates must pass."
+            exit 1
+          fi
+          echo "REVIEW GATES PASSED — candidate may proceed to a separate release approval."
+          echo "This workflow does not deploy to production."
+  report:
+    name: Publish review status
+    runs-on: ubuntu-latest
+    needs: [build, ux-review, finance-domain-review, release-review-gate]
+    if: always() && github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const results = {
+              build: '${{ needs.build.result }}',
+              ux: '${{ needs.ux-review.result }}',
+              finance: '${{ needs.finance-domain-review.result }}',
+              gate: '${{ needs.release-review-gate.result }}'
+            };
+            const passed = Object.values(results).every(x => x === 'success');
+            const body = [
+              '## AI Finance Studio — independent review',
+              '',
+              passed ? '**All automated review gates passed.**' : '**Release blocked: one or more review gates failed.**',
+              '',
+              ...Object.entries(results).map(([k,v]) => `- ${k}: ${v}`),
+              '',
+              'This is an automated review candidate, not a human finance sign-off or production deployment.'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
