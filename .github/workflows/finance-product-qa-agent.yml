@@ -20,6 +20,8 @@ jobs:
         with:
           node-version: 22
       - run: npm install
+      - name: Dependency vulnerability audit
+        run: npm audit --audit-level=high
       - name: TypeScript validation
         run: npm run lint
       - name: Production build validation
