@@ -92,3 +92,10 @@
 
 @media(max-width:900px){.saas-header{gap:18px;padding:0 20px}.saas-header nav{gap:14px}.saas-header nav a{font-size:10px}.header-pricing{display:none}}
 @media(max-width:680px){.saas-header{height:auto;min-height:68px;padding:10px 15px;gap:12px;flex-wrap:wrap}.saas-brand{font-size:14px}.brand-symbol{width:34px;height:34px}.saas-header nav{order:3;flex-basis:100%;overflow-x:auto;gap:19px;padding:3px 0 7px;scrollbar-width:none}.saas-header nav::-webkit-scrollbar{display:none}.saas-header nav a{white-space:nowrap;font-size:10px}.header-actions{margin-left:auto}.header-cta{padding:9px 11px;font-size:10px}}
+
+
+/* WCAG AA contrast corrections for topic directory microcopy. */
+.topic-section-head>p,.methods-section>div:first-child>p{color:#625b73}
+.topic-footnote{color:#625b73}
+.methods-grid article>span{color:#6544b4}
+.methods-grid article p{color:#625b73}
