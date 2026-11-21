@@ -44,6 +44,9 @@ function validReview(value: unknown): value is Review {
 function boundedText(v: unknown, max: number) { return typeof v === "string" ? v.trim().slice(0, max) : ""; }
 
 export async function POST(request: NextRequest) {
+  if (process.env.FINANCE_AI_ENABLED !== "true") return NextResponse.json({ error: "AI generation is disabled until authentication, quota enforcement and privacy controls are enabled." }, { status: 503 });
+  const contentLength = Number(request.headers.get("content-length") || 0);
+  if (contentLength > 20000) return NextResponse.json({ error: "Request is too large." }, { status: 413 });
   try {
     const body = await request.json() as Record<string, unknown>;
     const brief = boundedText(body.brief, 6000);
@@ -65,7 +68,7 @@ export async function POST(request: NextRequest) {
     const prompt = boundedText(draft.prompt, 18000);
     if (prompt.length < 300) return NextResponse.json({ error: "The generated prompt was incomplete. Retry the request." }, { status: 502 });
 
-    const reviewSystem = `You are an independent finance prompt quality reviewer. Do not rewrite the prompt. Evaluate relevance, finance-domain correctness, input/evidence precision, analytical method, deliverable usefulness, controls and taxonomy fit. Critical failures include invented financial/regulatory claims, unsafe autonomous financial actions, missing material data requirements, or a compliance conclusion without jurisdiction/standard/date. Score 0-100. Pass only if score >= 90 and there are zero critical failures. Revise for 80-89 or fixable issues. Reject below 80 or any critical failure. Return JSON keys score, verdict, criticalFailures, findings, improvements.`;
+    const reviewSystem = `You are a second-pass finance prompt quality reviewer. Do not rewrite the prompt. Evaluate relevance, finance-domain correctness, input/evidence precision, analytical method, deliverable usefulness, controls and taxonomy fit. Critical failures include invented financial/regulatory claims, unsafe autonomous financial actions, missing material data requirements, or a compliance conclusion without jurisdiction/standard/date. Score 0-100. Pass only if score >= 90 and there are zero critical failures. Revise for 80-89 or fixable issues. Reject below 80 or any critical failure. Return JSON keys score, verdict, criticalFailures, findings, improvements.`;
     const review = await generateJson<Review>(reviewSystem, JSON.stringify({ userRequest: brief, primaryTopic: draft.primaryTopic, prompt, requiredInputs: draft.requiredInputs, validationChecks: draft.validationChecks }));
     if (!validReview(review)) return NextResponse.json({ error: "The independent quality review could not be completed. The prompt has not been approved." }, { status: 502 });
 
