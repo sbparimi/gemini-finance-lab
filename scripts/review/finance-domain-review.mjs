@@ -19,6 +19,7 @@ add("Premium monthly price",plans.includes("$5.99")&&plans.includes("per month")
 add("No trial tier",plans.toLowerCase().includes("there is no trial tier")&&!plans.includes('name:"Trial"'),"Trial tier and trial language absent from plans");
 add("Transparent launch state",plans.includes("no subscription is being sold or charged here")&&plans.includes("not active account features"),"Pricing page does not falsely claim payment or quota enforcement");
 add("Framework security",pkg.dependencies?.next==="15.5.29"&&pkg.dependencies?.react==="19.1.10",`Next ${pkg.dependencies?.next}; React ${pkg.dependencies?.react}`);
+add("PostCSS security override",pkg.overrides?.postcss==="8.5.33",`PostCSS override: ${pkg.overrides?.postcss||"not configured"}`);
 add("Product identity",layout.includes("AI Finance")&&layout.includes("AI Finance Studio"),"New product identity in visible shell and metadata");
 add("Baseline security headers",["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"].every(h=>config.includes(h)),"MIME sniffing, framing, referrer, permissions and HTTPS transport headers configured");
 add("Preview pricing is not misrepresented",plans.includes("PLANNED FREE ALLOWANCE")&&plans.includes("PLANNED PREMIUM CAPABILITIES")&&plans.includes("no subscription is being sold or charged here"),"Quota and premium entitlements are labelled planned; checkout is not represented as active");
