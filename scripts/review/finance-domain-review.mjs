@@ -28,7 +28,7 @@ add("Framework security",pkg.dependencies?.next==="15.5.29"&&pkg.dependencies?.r
 add("PostCSS security override",pkg.overrides?.postcss==="8.5.33",`PostCSS override: ${pkg.overrides?.postcss||"not configured"}`);
 add("Product identity",layout.includes("AI Finance")&&layout.includes("AI Finance Studio"),"New product identity in visible shell and metadata");
 const workspaceCount=(taxonomy.match(/slug:"/g)||[]).length;
-const topicNames=[...taxonomy.matchAll(/topics:\\[(.*?)\\]\\}/gs)].flatMap(m=>[...m[1].matchAll(/"([^"]+)"/g)].map(x=>x[1]));
+const topicNames=[...taxonomy.matchAll(/topics:\[(.*?)\]\}/gs)].flatMap(m=>[...m[1].matchAll(/"([^"]+)"/g)].map(x=>x[1]));
 add("Finance taxonomy completeness",workspaceCount===12&&new Set(topicNames).size===54,`${workspaceCount} workspaces; ${new Set(topicNames).size} distinct subjects`);
 add("Professional methodology directory",["MECE issue trees","Hypothesis-led analysis","Driver trees","Scenario and sensitivity analysis","Root-cause analysis","Control and evidence matrices","Model validation","Cost-to-value analysis","Executive synthesis"].every(x=>taxonomy.includes(x)),"Nine generic professional analytical methods are included");
 add("Baseline security headers",["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"].every(h=>config.includes(h)),"MIME sniffing, framing, referrer, permissions and HTTPS transport headers configured");
