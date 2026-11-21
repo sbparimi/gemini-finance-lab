@@ -27,7 +27,7 @@ export default function Home(){return <main className="saas-home">
    <div className="mock-window">
     <div className="mock-top"><div className="mock-dots"><i/><i/><i/></div><span>ai-finance-studio / workspace</span><span className="mock-status">● READY</span></div>
     <div className="mock-body">
-     <div className="mock-sidebar"><div className="mock-logo">G</div><div className="mock-side-active">⌕</div><div>▤</div><div>✳</div><div>◷</div></div>
+     <div className="mock-sidebar"><div className="mock-logo">F</div><div className="mock-side-active">⌕</div><div>▤</div><div>✳</div><div>◷</div></div>
      <div className="mock-main"><div className="mock-greeting">WORKSPACE OVERVIEW</div><h3>What are we working on?</h3><div className="mock-search"><span>⌕</span> Reconcile bank transactions against the cash ledger… <b>↵</b></div>
       <div className="mock-section-label">SUGGESTED WORKFLOWS</div>
       <div className="mock-cards"><div><span className="mock-card-icon">↔</span><b>Bank reconciliation</b><small>Match · Investigate · Verify</small></div><div><span className="mock-card-icon purple">▥</span><b>Cash forecasting</b><small>Project · Stress test · Review</small></div></div>
