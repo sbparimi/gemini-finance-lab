@@ -23,9 +23,9 @@ export default function Home(){return <main className="saas-home">
    <div className="hero-actions"><Link className="btn btn-primary" href="/explore">Explore prompt library <span>↗</span></Link><Link className="btn btn-glass" href="/studio">Open Prompt Studio</Link></div>
    <div className="hero-proof"><span><b>{prompts.length}+</b> professional templates</span><i/><span><b>8</b> learning pathways</span><i/><span><b>100%</b> synthetic practice data</span></div>
   </div>
-  <div className="hero-product" aria-label="Finance Lab workspace preview">
+  <div className="hero-product" aria-label="AI Finance Studio workspace preview">
    <div className="mock-window">
-    <div className="mock-top"><div className="mock-dots"><i/><i/><i/></div><span>finance-lab / workspace</span><span className="mock-status">● READY</span></div>
+    <div className="mock-top"><div className="mock-dots"><i/><i/><i/></div><span>ai-finance-studio / workspace</span><span className="mock-status">● READY</span></div>
     <div className="mock-body">
      <div className="mock-sidebar"><div className="mock-logo">G</div><div className="mock-side-active">⌕</div><div>▤</div><div>✳</div><div>◷</div></div>
      <div className="mock-main"><div className="mock-greeting">WORKSPACE OVERVIEW</div><h3>What are we working on?</h3><div className="mock-search"><span>⌕</span> Reconcile bank transactions against the cash ledger… <b>↵</b></div>
@@ -48,7 +48,7 @@ export default function Home(){return <main className="saas-home">
   <div className="section-intro"><div><div className="eyebrow dark">A BETTER WAY TO WORK WITH AI</div><h2>Designed for professional<br/>finance workflows.</h2></div><p>Useful structure, not magic buttons. Keep the analyst in control from source data through final review.</p></div>
   <div className="feature-grid">{features.map(([ic,t,d])=><div className="feature-card" key={t}><span>{ic}</span><h3>{t}</h3><p>{d}</p></div>)}</div>
  </section>
- <section className="pricing-preview"><div><div className="eyebrow">SIMPLE, PRACTICAL ACCESS</div><h2>Professional prompts.<br/>Without enterprise pricing.</h2><p>Get five prompt generations every day at no cost. Upgrade to Premium for $5.99 per month when you need the full professional workspace.</p></div><div className="price-mini"><div className="price-mini-label">PRO MONTHLY</div><div className="price-mini-value">$5.99<span>/ month</span></div><p>Expanded professional prompt workspace</p><Link className="btn btn-primary" href="/plans">Compare plans <span>↗</span></Link><small>Subscription checkout is not enabled yet.</small></div></section>
+ <section className="pricing-preview"><div><div className="eyebrow">SIMPLE, PRACTICAL ACCESS</div><h2>Professional prompts.<br/>Without enterprise pricing.</h2><p>Get five prompt generations every day at no cost. Upgrade to Premium for $5.99 per month when you need the full professional workspace.</p></div><div className="price-mini"><div className="price-mini-label">PREMIUM MONTHLY</div><div className="price-mini-value">$5.99<span>/ month</span></div><p>Expanded professional prompt workspace</p><Link className="btn btn-primary" href="/plans">Compare plans <span>↗</span></Link><small>Subscription checkout is not enabled yet.</small></div></section>
  <section className="principle-strip"><span>THE OPERATING PRINCIPLE</span><b>Gemini assists.</b><b>Google Sheets calculates.</b><b>Humans verify.</b></section>
  <div className="bottom-note">Educational workspace using synthetic examples. Do not enter confidential customer, employee, bank or company data into an unapproved AI service. AI outputs require independent verification.</div>
 </main>}
