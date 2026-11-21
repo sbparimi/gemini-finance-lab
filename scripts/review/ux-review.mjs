@@ -15,7 +15,9 @@ try{
   const response=await page.goto("http://127.0.0.1:3000"+route,{waitUntil:"networkidle"});
   check("Route "+route,!!response&&response.status()===200,`HTTP ${response?.status()}`);
  }
- await page.goto("http://127.0.0.1:3000/",{waitUntil:"networkidle"});
+ const homeResponse=await page.goto("http://127.0.0.1:3000/",{waitUntil:"networkidle"});
+ const responseHeaders=homeResponse?.headers()||{};
+ check("Security response headers",responseHeaders["x-content-type-options"]==="nosniff"&&responseHeaders["x-frame-options"]==="DENY"&&responseHeaders["referrer-policy"]==="strict-origin-when-cross-origin"&&responseHeaders["strict-transport-security"]?.includes("max-age="),"Verify browser-facing headers on the actual HTTP response");
  const header=await page.locator(".saas-header").evaluate(el=>({height:getComputedStyle(el).height,bg:getComputedStyle(el).backgroundColor}));
  check("Design system loaded",header.height==="76px"&&header.bg!=="rgba(0, 0, 0, 0)",JSON.stringify(header));
  check("Brand visible",(await page.locator(".saas-brand").first().innerText()).includes("AI"));
