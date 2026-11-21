@@ -4,6 +4,7 @@ const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const layout=fs.readFileSync("app/layout.tsx","utf8");
 const plans=fs.readFileSync("app/plans/page.tsx","utf8");
 const home=fs.readFileSync("app/page.tsx","utf8");
+const taxonomy=fs.readFileSync("lib/taxonomy.ts","utf8");
 const config=fs.readFileSync("next.config.ts","utf8");
 const checks=[];
 const add=(name,ok,detail)=>checks.push({name,status:ok?"PASS":"FAIL",detail});
@@ -26,6 +27,10 @@ add("Transparent launch state",plans.includes("no subscription is being sold or 
 add("Framework security",pkg.dependencies?.next==="15.5.29"&&pkg.dependencies?.react==="19.1.10",`Next ${pkg.dependencies?.next}; React ${pkg.dependencies?.react}`);
 add("PostCSS security override",pkg.overrides?.postcss==="8.5.33",`PostCSS override: ${pkg.overrides?.postcss||"not configured"}`);
 add("Product identity",layout.includes("AI Finance")&&layout.includes("AI Finance Studio"),"New product identity in visible shell and metadata");
+const workspaceCount=(taxonomy.match(/slug:"/g)||[]).length;
+const topicNames=[...taxonomy.matchAll(/topics:\\[(.*?)\\]\\}/gs)].flatMap(m=>[...m[1].matchAll(/"([^"]+)"/g)].map(x=>x[1]));
+add("Finance taxonomy completeness",workspaceCount===12&&new Set(topicNames).size===54,`${workspaceCount} workspaces; ${new Set(topicNames).size} distinct subjects`);
+add("Professional methodology directory",["MECE issue trees","Hypothesis-led analysis","Driver trees","Scenario and sensitivity analysis","Root-cause analysis","Control and evidence matrices","Model validation","Cost-to-value analysis","Executive synthesis"].every(x=>taxonomy.includes(x)),"Nine generic professional analytical methods are included");
 add("Baseline security headers",["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"].every(h=>config.includes(h)),"MIME sniffing, framing, referrer, permissions and HTTPS transport headers configured");
 add("Preview pricing is not misrepresented",plans.includes("PLANNED FREE ALLOWANCE")&&plans.includes("PLANNED PREMIUM CAPABILITIES")&&plans.includes("no subscription is being sold or charged here")&&home.includes("Planned Free allowance")&&home.includes("Accounts, quota enforcement and checkout are not active"),"Home and plans clearly label quota and premium as planned; checkout is not represented as active");
 fs.mkdirSync("artifacts",{recursive:true});
