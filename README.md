@@ -1,41 +1,53 @@
 # Gemini Finance Lab
 
-A practice companion for the **AI-Powered Finance Automation with Google Sheets & Gemini** course.
+A professional practice companion for the **AI-Powered Finance Automation with Google Sheets & Gemini** course.
 
 ## Product principle
 **Gemini assists. Google Sheets calculates. Humans verify.**
 
-## Current milestone
-The first frontend milestone provides:
-- Landing page and navigation
-- Searchable finance prompt catalogue
-- Eight-unit course map
-- Prompt detail pages
-- Interactive Prompt Studio (local prompt composition and clipboard copy)
-- Finance simulation catalogue
-- Six-project overview
-- Synthetic Northstar Trading BV examples
+## Current feature-branch milestone
+- Responsive landing page and navigation.
+- Searchable professional finance prompt library with 22 copy-ready templates.
+- Workflow, industry and finance-role discovery filters.
+- Eight-unit course map.
+- Prompt detail pages showing role, required inputs, full prompt, deliverables, validation checklist and professional limitations.
+- Text-first Prompt Studio with optional browser voice input; learner can dictate a short task and receive a structured prompt.
+- Four finance simulation entry points and six project overviews.
+- Automated specialist QA workflow for proposal coverage, prompt structure, route smoke tests, Prompt Studio text/voice controls and dependency versions.
 
-## Technology
-- Next.js App Router
-- React and TypeScript
-- CSS-based responsive UI
-- Static, typed starter content
+## Prompt quality standard
+Every professional template must:
+- State the role, business objective and operating context.
+- Specify the source data and definitions required before execution.
+- Provide a task-specific analysis method and matching/calculation rules.
+- Prohibit invented facts, values, policies, regulatory rules and causal explanations.
+- Preserve source lineage and separate facts, calculations, assumptions and open questions.
+- Stop with **BLOCKED — INPUT REQUIRED** when material inputs or definitions are missing.
+- Return exceptions, control totals, spreadsheet implementation guidance and reviewer hand-off.
+- Include independent validation checks and clearly stated limitations.
 
-The initial milestone deliberately has no Gemini API integration, database, authentication or external AI execution. Learners use their own eligible Gemini interface and Google Sheets. Gemini feature availability varies by Google account and plan.
+Prompt templates cover bank reconciliation, accounts payable, month-end close, FP&A, cash forecasting, financial reporting, receivables, journal review, banking credit/liquidity monitoring, intercompany, fixed assets, accruals, regulatory data quality, audit sampling, FX, working capital, management reporting, finance data quality and financial modelling.
+
+## Technology and execution boundary
+- Next.js App Router, React and TypeScript.
+- Google Sheets is the deterministic calculation/workbook environment.
+- Gemini is used by the learner in their own eligible Google account.
+- No Gemini API integration, database, authentication or external AI execution in this milestone. Prompt construction happens locally in the browser.
+- Gemini feature availability varies by Google account and plan.
 
 ## Run locally
 ```bash
 npm install
 npm run dev
+npm run lint
+npm run build
 ```
 
 ## Data and safety
-All Northstar Trading BV examples are fictional. Do not enter real customer, employee, supplier, bank or other confidential financial data. AI-generated financial outputs require independent review.
+Northstar Trading BV is fictional. Never paste real customer, employee, supplier, bank, account or other confidential financial data into an unapproved AI service. AI-generated financial outputs are not guaranteed error-free and are not evidence of correctness. Recalculate material amounts in Google Sheets, reconcile to authoritative source systems, apply the organisation's approved policies and obtain required preparer/reviewer sign-off.
 
 ## Planned next milestones
-1. Full prompt catalogue and prompt quality rubric
-2. Guided simulations with deterministic answer keys
-3. Downloadable synthetic datasets and completed reference solutions
-4. Student accounts, saved prompts and progress tracking (after explicit authorization for the required backend connection)
-5. Accessibility, automated tests and deployment hardening
+1. Guided simulations with deterministic answer keys and synthetic datasets.
+2. Downloadable practice datasets and completed reference solutions for each course project.
+3. Student accounts, saved prompts and progress tracking (only after explicit authorization for the required backend connection).
+4. Accessibility audit and expanded automated regression coverage.
