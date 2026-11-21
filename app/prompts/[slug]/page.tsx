@@ -18,8 +18,11 @@ export default async function PromptPage({params}:{params:Promise<{slug:string}>
   <div className="twocol" style={{marginTop:28,alignItems:"start"}}>
    <section>
     <div className="section-head" style={{marginTop:0}}><div><h2>Professional prompt</h2><p>Complete, copy-ready instruction set with finance controls</p></div></div>
-    <div className="promptbox">{p.prompt}</div>
-    <div style={{display:"flex",gap:12,flexWrap:"wrap",marginTop:14,alignItems:"center"}}><CopyPromptButton text={p.prompt}/><Link className="btn" href="/studio">Open Prompt Studio</Link></div>
+    <div className="prompt-actionbar">
+     <div className="prompt-action-copy"><span className="prompt-action-kicker">READY-TO-USE FINANCE PLAYBOOK</span><strong>Take this workflow into your finance work</strong><small>Copy the complete instruction or tailor it to your organisation.</small></div>
+     <div className="prompt-action-buttons"><CopyPromptButton text={p.prompt}/><Link className="btn btn-prompt-studio" href={"/studio?topic="+encodeURIComponent(p.topic)+"&lens="+encodeURIComponent(p.advisoryLens[0])+"&brief="+encodeURIComponent("Adapt this "+p.title+" prompt to my finance workflow.")}>Customise in Studio <span aria-hidden="true">↗</span></Link></div>
+    </div>
+    <div className="promptbox promptbox-vibrant">{p.prompt}</div>
     <p className="footer-note" style={{marginTop:12}}>Use this as a starting control specification. Adapt it to your organisation's chart of accounts, policies, approval matrix, data dictionary and reporting definitions before operational use.</p>
    </section>
    <aside className="card">
