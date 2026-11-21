@@ -1,4 +1,4 @@
-name: Finance Product QA Agent
+name: AI Finance Studio — Independent Release Review
 on:
   push:
     branches: [feature/finance-lab-mvp]
@@ -11,59 +11,120 @@ permissions:
   pull-requests: write
   issues: write
 jobs:
-  specialist-review:
-    name: Specialist finance product review
+  build:
+    name: Build and type safety
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout proposal
-        uses: actions/checkout@v4
-      - name: Set up Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install dependencies
-        run: npm install
-      - name: Type-check
+          cache: npm
+      - run: npm install
+      - name: TypeScript validation
         run: npm run lint
-      - name: Build application
+      - name: Production build validation
         run: npm run build
-      - name: Install browser
+  ux-review:
+    name: Independent UX and accessibility review
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm install
+      - name: Install Chromium
         run: npx playwright install --with-deps chromium
-      - name: Start app and run specialist review
+      - name: Build review candidate
+        run: npm run build
+      - name: Start candidate
         run: |
-          npm run start > /tmp/gemini-finance-lab.log 2>&1 &
-          echo $! > /tmp/gemini-finance-lab.pid
+          npm run start > /tmp/ai-finance-studio.log 2>&1 &
           for i in $(seq 1 60); do
             if curl -fsS http://127.0.0.1:3000 >/dev/null; then break; fi
             sleep 2
           done
-          npm run review:agent
-      - name: Publish review report to workflow summary
-        if: always()
-        run: |
-          if [ -f artifacts/finance-product-qa-report.md ]; then cat artifacts/finance-product-qa-report.md >> "$GITHUB_STEP_SUMMARY"; else echo "QA report was not generated. Inspect preceding build or test logs." >> "$GITHUB_STEP_SUMMARY"; fi
-      - name: Upload review report
+          curl -fsS http://127.0.0.1:3000 >/dev/null
+      - name: Run independent UX review
+        run: node scripts/review/ux-review.mjs
+      - name: Upload visual evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: finance-product-qa-report
+          name: ai-finance-studio-ux-evidence
           path: artifacts/
           if-no-files-found: ignore
-      - name: Comment findings on pull request
-        if: always() && github.event_name == 'pull_request'
-        uses: actions/github-script@v7
+  finance-domain-review:
+    name: Independent finance domain and commercial review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - name: Review prompt controls, pricing and product claims
+        run: node scripts/review/finance-domain-review.mjs
+      - name: Upload finance review evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-finance-studio-finance-review
+          path: artifacts/finance-domain-review.json
+          if-no-files-found: ignore
+  release-review-gate:
+    name: Independent reviewers approval gate
+    runs-on: ubuntu-latest
+    needs: [build, ux-review, finance-domain-review]
+    if: always()
+    steps:
+      - name: Require all reviewers to pass
+        env:
+          BUILD_RESULT: ${{ needs.build.result }}
+          UX_RESULT: ${{ needs.ux-review.result }}
+          FINANCE_RESULT: ${{ needs.finance-domain-review.result }}
+        run: |
+          echo "Build: $BUILD_RESULT"
+          echo "Independent UX reviewer: $UX_RESULT"
+          echo "Independent finance domain reviewer: $FINANCE_RESULT"
+          if [ "$BUILD_RESULT" != "success" ] || [ "$UX_RESULT" != "success" ] || [ "$FINANCE_RESULT" != "success" ]; then
+            echo "RELEASE BLOCKED — all independent review gates must pass."
+            exit 1
+          fi
+          echo "REVIEW GATES PASSED — candidate may proceed to a separate release approval."
+          echo "This workflow does not deploy to production."
+  report:
+    name: Publish review status
+    runs-on: ubuntu-latest
+    needs: [build, ux-review, finance-domain-review, release-review-gate]
+    if: always() && github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/github-script@v7
         with:
           script: |
-            const fs = require('fs');
-            const reportPath = 'artifacts/finance-product-qa-report.md';
-            const body = fs.existsSync(reportPath)
-              ? fs.readFileSync(reportPath, 'utf8')
-              : '# Finance Product QA Agent\n\nReview report unavailable because an earlier build or setup step failed. Inspect the workflow logs.';
-            if (context.issue.number) {
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body
-              });
-            }
+            const results = {
+              build: '${{ needs.build.result }}',
+              ux: '${{ needs.ux-review.result }}',
+              finance: '${{ needs.finance-domain-review.result }}',
+              gate: '${{ needs.release-review-gate.result }}'
+            };
+            const passed = Object.values(results).every(x => x === 'success');
+            const body = [
+              '## AI Finance Studio — independent review',
+              '',
+              passed ? '**All automated review gates passed.**' : '**Release blocked: one or more review gates failed.**',
+              '',
+              ...Object.entries(results).map(([k,v]) => `- ${k}: ${v}`),
+              '',
+              'This is an automated review candidate, not a human finance sign-off or production deployment.'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
