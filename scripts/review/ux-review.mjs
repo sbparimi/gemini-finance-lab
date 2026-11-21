@@ -11,7 +11,7 @@ const errors=[];
 page.on("pageerror",e=>errors.push(e.message));
 page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});
 try{
- for(const route of ["/","/workspace","/explore","/studio","/units","/simulations","/projects","/plans","/prompts/bank-reconciliation-control"]){
+ for(const route of ["/","/topics","/workspace","/explore","/studio","/units","/simulations","/projects","/plans","/prompts/bank-reconciliation-control"]){
   const response=await page.goto("http://127.0.0.1:3000"+route,{waitUntil:"networkidle"});
   check("Route "+route,!!response&&response.status()===200,`HTTP ${response?.status()}`);
  }
@@ -21,7 +21,14 @@ try{
  const header=await page.locator(".saas-header").evaluate(el=>({height:getComputedStyle(el).height,bg:getComputedStyle(el).backgroundColor}));
  check("Design system loaded",header.height==="76px"&&header.bg!=="rgba(0, 0, 0, 0)",JSON.stringify(header));
  check("Brand visible",(await page.locator(".saas-brand").first().innerText()).includes("AI"));
- check("Primary CTA visible",await page.getByRole("link",{name:/Explore prompt library/i}).isVisible());
+ check("Editorial finance landing",await page.locator(".story-hero").isVisible()&&await page.locator(".story-workspace-grid").isVisible(),"Vibrant SaaS hero and workspace discovery cards are rendered");
+ check("Finance topic architecture",await page.locator(".story-workspace-card").count()===6,"Homepage highlights six workspaces and links to the complete topic directory");
+ await page.goto("http://127.0.0.1:3000/topics",{waitUntil:"networkidle"});
+ check("Full topic directory",await page.locator(".workspace-tile").count()===12,"Twelve finance workspaces are visible");
+ const topicsA11y=await new AxeBuilder({page}).analyze();
+ check("Topic directory WCAG automated scan",topicsA11y.violations.length===0,JSON.stringify(topicsA11y.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>n.target)})).slice(0,20))||"No axe violations");
+ await page.screenshot({path:"artifacts/ux-topics-desktop.png",fullPage:true});
+ check("Primary CTA visible",await page.getByRole("link",{name:/Explore the prompt library/i}).isVisible());
  const homeA11y=await new AxeBuilder({page}).analyze();
  const homeIssues=homeA11y.violations.flatMap(v=>v.nodes.map(n=>({rule:v.id,target:n.target,summary:n.failureSummary?.slice(0,700)}))).slice(0,60);
  check("Homepage WCAG automated scan",homeA11y.violations.length===0,JSON.stringify(homeIssues)||"No axe violations");
@@ -40,7 +47,7 @@ try{
  check("No trial tier in plans",!(await page.getByRole("heading",{name:"Trial"}).count()),"Only Free and Premium tiers are presented");
  check("Premium checkout not falsely enabled",await page.getByRole("button",{name:/Premium checkout not active/i}).isDisabled(),"No payment is taken in preview");
  await page.setViewportSize({width:390,height:844});
- for(const route of ["/","/workspace","/explore","/studio","/plans"]){
+ for(const route of ["/","/topics","/workspace","/explore","/studio","/plans"]){
   await page.goto("http://127.0.0.1:3000"+route,{waitUntil:"networkidle"});
   const metrics=await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:window.innerWidth}));
   check("Mobile layout "+route,metrics.width<=metrics.viewport,`document width ${metrics.width}px; viewport ${metrics.viewport}px`);
