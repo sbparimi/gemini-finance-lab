@@ -11,7 +11,7 @@ const errors=[];
 page.on("pageerror",e=>errors.push(e.message));
 page.on("console",m=>{if(m.type()==="error")errors.push(m.text())});
 try{
- for(const route of ["/","/workspace","/explore","/studio","/units","/simulations","/projects","/plans"]){
+ for(const route of ["/","/workspace","/explore","/studio","/units","/simulations","/projects","/plans","/prompts/bank-reconciliation-control"]){
   const response=await page.goto("http://127.0.0.1:3000"+route,{waitUntil:"networkidle"});
   check("Route "+route,!!response&&response.status()===200,`HTTP ${response?.status()}`);
  }
@@ -33,6 +33,12 @@ try{
  const workspaceIssues=workspaceA11y.violations.flatMap(v=>v.nodes.map(n=>({rule:v.id,target:n.target,summary:n.failureSummary?.slice(0,700)}))).slice(0,60);
  check("Workspace WCAG automated scan",workspaceA11y.violations.length===0,JSON.stringify(workspaceIssues)||"No axe violations");
  await page.screenshot({path:"artifacts/ux-workspace-desktop.png",fullPage:true});
+ await page.goto("http://127.0.0.1:3000/plans",{waitUntil:"networkidle"});
+ const plansA11y=await new AxeBuilder({page}).analyze();
+ const plansIssues=plansA11y.violations.flatMap(v=>v.nodes.map(n=>({rule:v.id,target:n.target,summary:n.failureSummary?.slice(0,700)}))).slice(0,60);
+ check("Plans WCAG automated scan",plansA11y.violations.length===0,JSON.stringify(plansIssues)||"No axe violations");
+ check("No trial tier in plans",!(await page.getByRole("heading",{name:"Trial"}).count()),"Only Free and Premium tiers are presented");
+ check("Premium checkout not falsely enabled",await page.getByRole("button",{name:/Premium checkout not active/i}).isDisabled(),"No payment is taken in preview");
  await page.setViewportSize({width:390,height:844});
  for(const route of ["/","/workspace","/explore","/studio","/plans"]){
   await page.goto("http://127.0.0.1:3000"+route,{waitUntil:"networkidle"});
@@ -41,6 +47,9 @@ try{
  }
  await page.screenshot({path:"artifacts/ux-workspace-mobile.png",fullPage:true});
  await page.goto("http://127.0.0.1:3000/studio",{waitUntil:"networkidle"});
+ const studioA11y=await new AxeBuilder({page}).analyze();
+ const studioIssues=studioA11y.violations.flatMap(v=>v.nodes.map(n=>({rule:v.id,target:n.target,summary:n.failureSummary?.slice(0,700)}))).slice(0,60);
+ check("Prompt Studio WCAG automated scan",studioA11y.violations.length===0,JSON.stringify(studioIssues)||"No axe violations");
  check("Text-first input",await page.locator("#finance-brief").isVisible(),"Plain-language task field visible");
  check("Voice input",await page.getByRole("button",{name:/use voice input/i}).isVisible(),"Voice action visible");
  check("Copy disabled before input",await page.getByRole("button",{name:/copy prompt/i}).isDisabled(),"Prevents empty prompt copying");
