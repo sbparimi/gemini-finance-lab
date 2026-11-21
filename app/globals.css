@@ -28,3 +28,21 @@
 @media(max-width:1100px){.workspace-page{grid-template-columns:210px 1fr}.task-grid{grid-template-columns:repeat(2,1fr)}.tool-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.workspace-page{grid-template-columns:1fr}.workspace-sidebar{position:relative;top:0;height:auto;min-height:0;padding:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px}.workspace-logo{grid-column:1/-1;padding:3px 7px 10px}.sidebar-label,.sidebar-bottom{display:none}.side-link{justify-content:center;padding:9px 5px;font-size:9px}.workspace-main{padding:25px 16px 45px}.workspace-top{align-items:flex-start;flex-direction:column}.workspace-top-actions{width:100%;justify-content:space-between}.workspace-welcome{grid-template-columns:1fr;padding:24px 22px}.welcome-art{display:none}.workspace-section-head{align-items:flex-start;flex-direction:column}.task-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tool-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:440px){.task-grid,.tool-grid{grid-template-columns:1fr}.workspace-plan-chip{font-size:7px}.workspace-disclaimer{display:block}.workspace-disclaimer b{display:block;margin-bottom:4px}}
+
+
+/* Prompt detail conversion surface: actions first, visually prominent and responsive. */
+.prompt-actionbar{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:20px 22px;margin:0 0 12px;border:1px solid #e5e1ff;border-radius:18px;background:linear-gradient(105deg,#f2efff 0%,#f5f8ff 48%,#eafaf6 100%);box-shadow:0 12px 32px rgba(91,76,196,.09)}
+.prompt-action-copy{display:flex;flex-direction:column;gap:5px;min-width:220px}
+.prompt-action-kicker{font-size:9px;letter-spacing:1.5px;font-weight:900;color:#6655c9}
+.prompt-action-copy strong{font:800 16px Manrope,sans-serif;color:#1a2038;letter-spacing:-.3px}
+.prompt-action-copy small{font-size:11px;color:#667085}
+.prompt-action-buttons{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.prompt-actionbar .btn{min-height:44px;border-radius:12px;padding:12px 17px;box-shadow:0 5px 14px rgba(24,29,54,.08)}
+.prompt-actionbar .btn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(24,29,54,.16)}
+.prompt-actionbar .btn-prompt-studio{background:linear-gradient(110deg,#5746c6,#8757d8 55%,#2b9b91);color:#fff;border:0}
+.prompt-actionbar .btn-prompt-studio:hover{background:linear-gradient(110deg,#392ca7,#7540c6 55%,#168578);color:#fff}
+.promptbox-vibrant{position:relative;overflow:hidden;border:1px solid #6e64ce;border-radius:19px;background:linear-gradient(135deg,#171b35 0%,#292354 48%,#174c55 100%);color:#f5f4ff;box-shadow:0 20px 48px rgba(30,29,77,.20);transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease}
+.promptbox-vibrant:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 95% 0%,rgba(147,111,255,.25),transparent 38%),radial-gradient(ellipse at 0% 100%,rgba(61,213,190,.13),transparent 35%)}
+.promptbox-vibrant:hover{border-color:#a89aff;box-shadow:0 24px 58px rgba(79,65,177,.26);transform:translateY(-2px)}
+.promptbox-vibrant::selection{background:#a99aff;color:#171b35}
+@media(max-width:720px){.prompt-actionbar{align-items:stretch;flex-direction:column;padding:17px}.prompt-action-buttons{justify-content:stretch}.prompt-action-buttons>*{flex:1}.prompt-action-buttons .btn{width:100%}.promptbox-vibrant{font-size:12px;line-height:1.7}}
