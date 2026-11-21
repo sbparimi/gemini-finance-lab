@@ -3,6 +3,7 @@ const data=fs.readFileSync("lib/data.ts","utf8");
 const pkg=JSON.parse(fs.readFileSync("package.json","utf8"));
 const layout=fs.readFileSync("app/layout.tsx","utf8");
 const plans=fs.readFileSync("app/plans/page.tsx","utf8");
+const home=fs.readFileSync("app/page.tsx","utf8");
 const config=fs.readFileSync("next.config.ts","utf8");
 const checks=[];
 const add=(name,ok,detail)=>checks.push({name,status:ok?"PASS":"FAIL",detail});
@@ -22,7 +23,7 @@ add("Framework security",pkg.dependencies?.next==="15.5.29"&&pkg.dependencies?.r
 add("PostCSS security override",pkg.overrides?.postcss==="8.5.33",`PostCSS override: ${pkg.overrides?.postcss||"not configured"}`);
 add("Product identity",layout.includes("AI Finance")&&layout.includes("AI Finance Studio"),"New product identity in visible shell and metadata");
 add("Baseline security headers",["X-Content-Type-Options","X-Frame-Options","Referrer-Policy","Permissions-Policy","Strict-Transport-Security"].every(h=>config.includes(h)),"MIME sniffing, framing, referrer, permissions and HTTPS transport headers configured");
-add("Preview pricing is not misrepresented",plans.includes("PLANNED FREE ALLOWANCE")&&plans.includes("PLANNED PREMIUM CAPABILITIES")&&plans.includes("no subscription is being sold or charged here"),"Quota and premium entitlements are labelled planned; checkout is not represented as active");
+add("Preview pricing is not misrepresented",plans.includes("PLANNED FREE ALLOWANCE")&&plans.includes("PLANNED PREMIUM CAPABILITIES")&&plans.includes("no subscription is being sold or charged here")&&home.includes("Planned Free allowance")&&home.includes("Accounts, quota enforcement and checkout are not active"),"Home and plans clearly label quota and premium as planned; checkout is not represented as active");
 fs.mkdirSync("artifacts",{recursive:true});
 fs.writeFileSync("artifacts/finance-domain-review.json",JSON.stringify(checks,null,2));
 console.log(checks.map(x=>`[${x.status}] ${x.name}: ${x.detail}`).join("\n"));
