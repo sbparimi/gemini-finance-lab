@@ -23,13 +23,15 @@ try{
  check("Brand visible",(await page.locator(".saas-brand").first().innerText()).includes("AI"));
  check("Primary CTA visible",await page.getByRole("link",{name:/Explore prompt library/i}).isVisible());
  const homeA11y=await new AxeBuilder({page}).analyze();
- check("Homepage WCAG automated scan",homeA11y.violations.length===0,homeA11y.violations.slice(0,5).map(v=>v.id+":"+v.nodes.length).join(", ")||"No axe violations");
+ const homeIssues=homeA11y.violations.flatMap(v=>v.nodes.map(n=>({rule:v.id,target:n.target,summary:n.failureSummary?.slice(0,700)}))).slice(0,60);
+ check("Homepage WCAG automated scan",homeA11y.violations.length===0,JSON.stringify(homeIssues)||"No axe violations");
  await page.screenshot({path:"artifacts/ux-home-desktop.png",fullPage:true});
  await page.goto("http://127.0.0.1:3000/workspace",{waitUntil:"networkidle"});
  check("Workspace shell",await page.locator(".workspace-sidebar").isVisible()&&await page.locator(".workspace-welcome").isVisible(),"Sidebar, welcome panel and finance task grid render");
  check("Free quota disclosure",(await page.locator(".sidebar-plan").innerText()).includes("5 prompts / day"),"Five free prompts/day visible as plan definition, not a live quota");
  const workspaceA11y=await new AxeBuilder({page}).analyze();
- check("Workspace WCAG automated scan",workspaceA11y.violations.length===0,workspaceA11y.violations.slice(0,5).map(v=>v.id+":"+v.nodes.length).join(", ")||"No axe violations");
+ const workspaceIssues=workspaceA11y.violations.flatMap(v=>v.nodes.map(n=>({rule:v.id,target:n.target,summary:n.failureSummary?.slice(0,700)}))).slice(0,60);
+ check("Workspace WCAG automated scan",workspaceA11y.violations.length===0,JSON.stringify(workspaceIssues)||"No axe violations");
  await page.screenshot({path:"artifacts/ux-workspace-desktop.png",fullPage:true});
  await page.setViewportSize({width:390,height:844});
  for(const route of ["/","/workspace","/explore","/studio","/plans"]){
