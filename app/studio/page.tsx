@@ -1,5 +1,5 @@
 "use client";
-import {useMemo,useState} from "react";
+import {useEffect,useMemo,useState} from "react";
 
 type SpeechResult = { transcript: string };
 type SpeechEvent = { results: ArrayLike<ArrayLike<SpeechResult>> };
@@ -24,6 +24,15 @@ export default function Studio(){
   const [showOptions,setShowOptions]=useState(false);
   const [voiceStatus,setVoiceStatus]=useState("You can type a short request or dictate it.");
   const [listening,setListening]=useState(false);
+  useEffect(()=>{
+    const params=new URLSearchParams(window.location.search);
+    const incomingTopic=params.get("topic");
+    const incomingLens=params.get("lens");
+    const incomingBrief=params.get("brief");
+    if(incomingTopic)setTopic(incomingTopic);
+    if(incomingLens)setLens(incomingLens);
+    if(incomingBrief)setBrief(incomingBrief);
+  },[]);
   const prompt=useMemo(()=>[
     "Act as a senior finance and business advisory analyst. Apply rigorous, evidence-led professional-services standards without claiming affiliation with or reproducing any firm's proprietary methodology.",
     "FINANCE TOPIC\n"+topic,
@@ -61,7 +70,7 @@ export default function Studio(){
         </select>
         <label className="meta" htmlFor="advisory-lens">Professional advisory approach</label>
         <select id="advisory-lens" className="field" style={{width:"100%",margin:"8px 0 14px"}} value={lens} onChange={e=>setLens(e.target.value)}>
-          <option>Strategy & decision support</option><option>Performance improvement</option><option>Finance transformation</option><option>Process diagnostic</option><option>Risk & scenario analysis</option><option>Controls & assurance</option><option>Transaction diligence</option><option>Executive reporting</option>
+          <option>Strategy & decision support</option><option>Performance improvement</option><option>Finance transformation</option><option>Process diagnostic</option><option>Risk & scenario analysis</option><option>Controls & assurance</option><option>Transaction diligence</option><option>Executive reporting</option><option>Operational excellence</option><option>Evidence-led analysis</option>
         </select>
         <label className="meta" htmlFor="finance-brief">What do you want to accomplish? <span style={{color:"#b54747"}}>Required</span></label>
         <textarea id="finance-brief" className="field" style={{width:"100%",minHeight:150,margin:"8px 0 10px"}} placeholder="Example: I need to reconcile this month's bank statement against the general ledger and identify unmatched transactions." value={brief} onChange={e=>setBrief(e.target.value)}/>
