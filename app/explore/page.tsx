@@ -1,5 +1,5 @@
 "use client";
-import {useMemo,useState} from "react";
+import {useEffect,useMemo,useState} from "react";
 import Link from "next/link";
 import {prompts} from "@/lib/data";
 
@@ -9,6 +9,7 @@ export default function Explore(){
  const [industry,setIndustry]=useState("All");
  const [topic,setTopic]=useState("All");
  const [lens,setLens]=useState("All");
+ useEffect(()=>{const params=new URLSearchParams(window.location.search);const search=params.get("search");if(search)setQ(search);},[]);
  const cats=["All",...Array.from(new Set(prompts.map(p=>p.category))).sort()];
  const industries=["All",...Array.from(new Set(prompts.flatMap(p=>p.industry.split(" · ").map(x=>x.trim())))).sort()];
  const topics=["All",...Array.from(new Set(prompts.map(p=>p.topic))).sort()];
