@@ -12,7 +12,7 @@ const incomplete=objects.filter(o=>required.some(k=>!o.includes(k)));
 add("Prompt contract completeness",incomplete.length===0,incomplete.length?`Incomplete: ${incomplete.length}`:"Every prompt includes inputs, instruction, deliverables, validation and limitations");
 add("Anti-hallucination controls",data.includes("Do not invent transactions")&&data.includes("BLOCKED — INPUT REQUIRED")&&data.includes("NOT VERIFIED"),"Missing-input stop, no-invention rule and not-verified state are explicit");
 add("Source traceability",data.includes("Preserve source values and identifiers")&&data.includes("SOURCE FACT"),"Source identifiers retained and facts distinguished from calculations");
-add("Human decision boundary",data.includes("authorised professional")&&data.includes("Never make, execute or imply payment"),"Financial approvals and execution remain with authorised humans");
+add("Human decision boundary",data.includes("authorised professional")&&data.includes("Do not make, execute or imply payment"),"Financial approvals and execution remain with authorised humans");
 add("Five daily free prompts",plans.includes("5 prompt generations per day")&&layout.includes("$5.99/mo"),"Free plan is five prompts/day");
 add("Premium monthly price",plans.includes("$5.99")&&plans.includes("per month"),"Premium price is $5.99 per month");
 add("No trial tier",!plans.toLowerCase().includes("trial")&&!plans.toLowerCase().includes("free trial"),"Trial tier and trial language absent from plans");
