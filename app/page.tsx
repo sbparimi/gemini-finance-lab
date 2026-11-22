@@ -1,46 +1,78 @@
 import Link from "next/link";
-import {prompts} from "@/lib/data";
 import {financeWorkspaces,professionalMethods} from "@/lib/taxonomy";
 
-const featured=financeWorkspaces.slice(0,6);
-const work=[
- {eyebrow:"RECEIVABLES · ORDER TO CASH",title:"Explain the movement in DSO",body:"Trace overdue balances, segment the drivers, distinguish disputes from collection delays and prepare an action register.",tag:"INVESTIGATE"},
- {eyebrow:"FP&A · PERFORMANCE",title:"Build a variance narrative",body:"Connect actuals to plan, isolate the material drivers and turn the bridge into a concise management explanation.",tag:"ANALYSE"},
- {eyebrow:"ACCOUNTING · RECORD TO REPORT",title:"Strengthen the month-end close",body:"Organise reconciliations, evidence, open items, ownership and review checkpoints into a controlled close workflow.",tag:"CONTROL"}
+const journeys=[
+ {n:"01",label:"INVESTIGATE",title:"Find what changed",body:"Structure a question around movements, exceptions, root causes and supporting evidence.",example:"Receivables · cash flow · reconciliations",href:"/explore?search=investigation"},
+ {n:"02",label:"PLAN",title:"Make the numbers useful",body:"Build a clear analysis plan for budgets, forecasts, scenarios and performance conversations.",example:"FP&A · forecasting · variance analysis",href:"/explore?search=forecast"},
+ {n:"03",label:"CONTROL",title:"Make the work reviewable",body:"Organise controls, assumptions, validation steps, ownership and unresolved questions.",example:"Close · audit · risk · governance",href:"/explore?search=controls"}
 ];
-export default function Home(){return <main className="af-home">
- <section className="af-hero"><div className="af-hero-inner">
-  <div className="af-hero-copy"><div className="af-eyebrow"><span/> AI FINANCE WORKSPACE</div>
-   <h1>Turn finance questions into <em>work that moves decisions forward.</em></h1>
-   <p className="af-lead">A practical workspace for finance professionals to structure analysis, use better prompts and produce outputs that are easier to challenge, verify and act on.</p>
-   <div className="af-actions"><Link href="/signup" className="af-button">Explore AI Finance <span>↗</span></Link><Link href="/explore" className="af-link">Explore the finance library <span>→</span></Link></div>
-   <div className="af-proof"><span><b>{prompts.length}</b> professional playbooks</span><i/><span><b>{financeWorkspaces.length}</b> finance workspaces</span><i/><span><b>{financeWorkspaces.reduce((n,w)=>n+w.topics.length,0)}</b> topic pathways</span></div>
-  </div>
-  <div className="af-hero-art" aria-label="Illustrative AI Finance workflow interface"><div className="af-glow"/><div className="af-product">
-   <div className="af-product-top"><span className="af-mark">F</span><b>AI FINANCE <small>WORKSPACE</small></b><span className="af-status">WORKFLOW DESIGN</span></div>
-   <div className="af-product-body"><div className="af-product-caption">FINANCE WORKFLOW / RECEIVABLES</div><h2>Understand the rise in overdue receivables</h2>
-    <div className="af-input"><span>⌕</span><div><small>YOUR FINANCE QUESTION</small><b>What changed, why did it happen, and what needs attention?</b></div><strong>↗</strong></div>
-    <div className="af-product-label">BUILD A REVIEWABLE RESPONSE</div>
-    <div className="af-stages"><div><span>01</span><b>Context</b><small>Scope · period · source data</small></div><i>→</i><div className="af-stage-active"><span>02</span><b>Analysis</b><small>Ageing · DSO · drivers</small></div><i>→</i><div><span>03</span><b>Review</b><small>Evidence · exceptions</small></div></div>
-    <div className="af-output"><div><span>EXPECTED DELIVERABLE</span><b>Findings and action register</b></div><div><span>QUALITY CHECKS</span><b>Assumptions · control totals</b></div><div><span>DECISION OWNER</span><b>Finance reviewer</b></div></div>
+const capabilities=[
+ {symbol:"⌕",title:"Find the right starting point",body:"Search finance topics and professional playbooks by the work you need to complete.",href:"/explore",action:"Explore the finance library"},
+ {symbol:"✳",title:"Shape a better instruction",body:"Turn a plain-language task into a structured prompt with context, inputs and review criteria.",href:"/studio",action:"Open Prompt Studio"},
+ {symbol:"◫",title:"Build practical capability",body:"Practise with guided simulations and applied finance projects using controlled examples.",href:"/simulations",action:"Explore practice"}
+];
+const principles=[
+ {title:"Know what is known",body:"Keep supplied facts, assumptions, estimates and model-generated interpretations distinct."},
+ {title:"See what is missing",body:"Surface gaps, ambiguity and required inputs instead of silently filling them in."},
+ {title:"Keep people accountable",body:"Make review points and decision ownership explicit. AI assists; authorised people decide."}
+];
+export default function Home(){
+ return <main className="fx-home">
+  <a className="fx-skip" href="#main-content">Skip to content</a>
+  <section className="fx-hero" id="main-content">
+   <div className="fx-hero-grid" aria-hidden="true"><i/><i/><i/><i/></div>
+   <div className="fx-hero-inner">
+    <div className="fx-hero-copy">
+     <div className="fx-eyebrow"><span/> FINANCE WORK, BETTER ENGINEERED</div>
+     <h1>Finance deserves more than <em>another AI answer.</em></h1>
+     <p className="fx-lead">A workspace to frame the problem, choose a professional approach and produce work that people can inspect, challenge and use.</p>
+     <div className="fx-hero-actions"><Link href="/studio" className="fx-primary">Start with a finance task <span>↗</span></Link><Link href="/explore" className="fx-secondary">Browse finance workflows <span>→</span></Link></div>
+     <div className="fx-hero-assurance"><span><i/> Human review stays in control</span><span><i/> Evidence and assumptions stay visible</span></div>
+    </div>
+    <div className="fx-command" aria-label="Illustration of a structured finance workflow">
+     <div className="fx-command-head"><div><span className="fx-live-dot"/> WORKSPACE / TASK DESIGN</div><span>ILLUSTRATIVE VIEW</span></div>
+     <div className="fx-command-body">
+      <div className="fx-command-label">YOUR FINANCE TASK</div>
+      <div className="fx-command-prompt"><span>⌕</span><b>Why did operating cash flow change this quarter?</b><span className="fx-prompt-arrow">↗</span></div>
+      <div className="fx-command-meta"><span>INTENT</span><b>Investigate a movement</b><span>FUNCTION</span><b>Treasury / FP&amp;A</b></div>
+      <div className="fx-command-label fx-mt">A REVIEWABLE WORKFLOW</div>
+      <div className="fx-flow">
+       <div><span>01</span><b>Frame</b><small>Period · scope · decision</small></div><i>→</i>
+       <div className="fx-flow-active"><span>02</span><b>Analyse</b><small>Drivers · method · evidence</small></div><i>→</i>
+       <div><span>03</span><b>Validate</b><small>Checks · gaps · reviewer</small></div>
+      </div>
+      <div className="fx-command-foot"><div><span>OUTPUT</span><b>Findings and action plan</b></div><div><span>CONTROL</span><b>Human review required</b></div></div>
+     </div>
+     <div className="fx-command-note"><span>✓</span><div><b>Traceable by design</b><small>Facts · assumptions · open questions</small></div></div>
+    </div>
    </div>
-  </div><div className="af-float"><span>✓</span><div><b>Evidence stays visible</b><small>Facts · assumptions · open questions</small></div></div></div>
- </div></section>
- <section className="af-discipline-bar"><span>DESIGNED AROUND REAL FINANCE DISCIPLINES</span><b>ACCOUNTING</b><b>BANKING</b><b>FP&A</b><b>TREASURY</b><b>RISK & AUDIT</b><b>FINOPS</b></section>
- <section className="af-section af-problem"><div className="af-section-head"><div><span className="af-kicker">THE PROBLEM WITH GENERIC AI</span><h2>Your systems hold the data.<br/><em>Your judgement gives it meaning.</em></h2></div><p>Finance work is more than generating text. It depends on the right question, relevant evidence, sound analytical methods and a reviewable conclusion.</p></div>
-  <div className="af-principles"><article><span>01</span><h3>Start with the decision</h3><p>Define the question, business context, period, audience and intended use before generating an answer.</p></article><article><span>02</span><h3>Make the method explicit</h3><p>Use structured approaches for reconciliations, variance analysis, forecasting, controls and investigation.</p></article><article><span>03</span><h3>Keep the evidence in view</h3><p>Separate source facts from assumptions, calculations, interpretations and unresolved questions.</p></article></div>
- </section>
- <section className="af-showcase"><div className="af-section-head"><div><span className="af-kicker af-kicker-light">FROM QUESTION TO FINANCE OUTPUT</span><h2>See the work behind<br/><em>the answer.</em></h2></div><p>AI Finance helps turn an open-ended request into a structured piece of professional work. The interface below is an illustrative workflow, not a live financial data feed.</p></div>
-  <div className="af-showcase-grid"><div className="af-showcase-list"><div><span>01</span><div><b>Frame the task</b><small>Role, objective, context and constraints</small></div></div><div><span>02</span><div><b>Choose the approach</b><small>Methods, inputs and expected calculations</small></div></div><div><span>03</span><div><b>Review the output</b><small>Evidence, exceptions and validation checks</small></div></div></div>
-   <div className="af-review-card"><div className="af-review-head"><span>WORKFLOW PREVIEW / 01</span><b>REVIEW CHECKLIST</b></div><h3>Receivables performance review</h3><p>Illustrative structure for a finance review.</p><div className="af-review-row"><span>Scope and reporting period</span><b>Defined</b></div><div className="af-review-row"><span>Source ledger and ageing data</span><b>Required</b></div><div className="af-review-row"><span>Movement and driver analysis</span><b>To calculate</b></div><div className="af-review-row"><span>Exceptions and action owners</span><b>To review</b></div><div className="af-review-foot">No financial result is inferred without source data.</div></div>
-  </div>
- </section>
- <section className="af-section af-library"><div className="af-section-head"><div><span className="af-kicker">EXPLORE THE FINANCE LANDSCAPE</span><h2>One workspace.<br/><em>Every finance discipline.</em></h2></div><p>Navigate by the function you work in. Open a topic and start from a relevant playbook rather than a blank prompt.</p></div>
-  <div className="af-workspaces">{featured.map((w,i)=><Link href={"/explore?search="+encodeURIComponent(w.topics[0])} className="af-workspace-card" key={w.slug}><div><span>{w.number} / FINANCE WORKSPACE</span><b>↗</b></div><h3>{w.title}</h3><p>{w.intro}</p><small>{w.topics.slice(0,3).join(" · ")}</small><strong>Explore workspace <span>→</span></strong></Link>)}</div><div className="af-center-link"><Link href="/topics">Explore all {financeWorkspaces.length} finance workspaces and topic areas ↗</Link></div>
- </section>
- <section className="af-usecases"><div className="af-usecase-copy"><span className="af-kicker af-kicker-light">BUILT FOR THE WORK, NOT THE HYPE</span><h2>Move from analysis<br/>to <em>clear next steps.</em></h2><p>Use a prepared workflow for recurring finance activities. Adapt the instruction to your organisation, source systems and review requirements.</p><Link href="/explore" className="af-button af-button-white">Find a finance workflow ↗</Link></div><div className="af-usecase-cards">{work.map((w,i)=><article key={w.title}><span>{w.eyebrow}</span><small>{w.tag}</small><h3>{w.title}</h3><p>{w.body}</p><b>0{i+1}</b></article>)}</div></section>
- <section className="af-section af-method"><div><span className="af-kicker">A DISCIPLINED WAY TO WORK</span><h2>AI output is a draft.<br/><em>Evidence makes it useful.</em></h2><p>Build repeatable analysis with professional methods. Playbooks help make the work visible; finance professionals remain responsible for validating inputs, calculations and conclusions.</p><div className="af-method-list">{professionalMethods.slice(0,4).map(m=><div key={m.title}><span>✓</span><div><b>{m.title}</b><small>{m.use}</small></div></div>)}</div><Link href="/topics" className="af-inline-link">Explore the methods map ↗</Link></div><div className="af-method-visual"><div className="af-method-ring af-ring-one"/><div className="af-method-ring af-ring-two"/><div className="af-method-core"><small>FINANCE WORK</small><b>QUESTION</b><span>↓</span><b>EVIDENCE</b><span>↓</span><b>DECISION</b></div><div className="af-method-node af-node-one">SOURCE<br/>DATA</div><div className="af-method-node af-node-two">ANALYTICAL<br/>METHOD</div><div className="af-method-node af-node-three">REVIEW<br/>CONTROLS</div></div></section>
- <section className="af-tools"><div className="af-section-head"><div><span className="af-kicker">TOOLS TO MOVE THE WORK FORWARD</span><h2>Start with the task.<br/><em>Build from there.</em></h2></div><p>Choose a prepared resource or describe a finance activity in your own words.</p></div><div className="af-tool-grid"><Link href="/explore"><span>⌕</span><b>Finance library</b><p>Search playbooks by function, subject and finance task.</p><i>Explore library ↗</i></Link><Link href="/studio"><span>✳</span><b>Prompt Studio</b><p>Turn a plain-language request into a structured instruction.</p><i>Open Studio ↗</i></Link><Link href="/simulations"><span>◉</span><b>Practice simulations</b><p>Work through guided scenarios using controlled examples.</p><i>Start practising ↗</i></Link><Link href="/projects"><span>▦</span><b>Applied projects</b><p>Connect multiple activities in an end-to-end learning project.</p><i>View projects ↗</i></Link></div></section>
- <section className="af-final"><div><span className="af-kicker af-kicker-light">AI FINANCE / PROFESSIONAL WORKSPACE</span><h2>Bring structure to<br/>your next finance task.</h2><p>Start with the problem. Keep the evidence. Review the result.</p></div><div><Link href="/signup" className="af-button">Create your account ↗</Link><Link href="/studio" className="af-link af-final-link">Open Prompt Studio →</Link></div></section>
- <p className="af-disclaimer">AI Finance is a professional productivity and learning workspace. It is not a system of record and does not approve or execute financial transactions. Verify outputs against authoritative source data, organisational policies and applicable standards. Use synthetic or approved data only.</p>
- </main>}
+   <div className="fx-orbit fx-orbit-a"/><div className="fx-orbit fx-orbit-b"/>
+  </section>
+  <section className="fx-trust-strip" aria-label="Designed for finance disciplines"><span>BUILT AROUND THE WORK OF</span>{["ACCOUNTING","FP&A","BANKING","TREASURY","RISK & AUDIT","FINOPS"].map(x=><b key={x}>{x}</b>)}</section>
+  <section className="fx-section fx-intro">
+   <div className="fx-section-heading"><div><span className="fx-kicker">THE FINANCE WORKFLOW</span><h2>From open question<br/>to <em>defensible work.</em></h2></div><p>Good finance work is not just a polished paragraph. It is a chain of reasoning that starts with the right context and ends with a result that can be reviewed.</p></div>
+   <div className="fx-journeys">{journeys.map(j=><Link href={j.href} className="fx-journey" key={j.n}><div className="fx-journey-top"><span>{j.n}</span><small>{j.label}</small><b>↗</b></div><h3>{j.title}</h3><p>{j.body}</p><div className="fx-example">{j.example}</div></Link>)}</div>
+  </section>
+  <section className="fx-dark-section">
+   <div className="fx-section fx-system">
+    <div className="fx-system-copy"><span className="fx-kicker fx-light">A BETTER WAY TO WORK WITH AI</span><h2>Not a black box.<br/><em>A working process.</em></h2><p>AI Finance is designed to make the structure around an answer visible: what was asked, which method is relevant, what information is needed and what still requires judgement.</p><Link href="/topics" className="fx-text-link">Explore the finance knowledge map ↗</Link></div>
+    <div className="fx-principle-list">{principles.map((p,i)=><article key={p.title}><span>0{i+1}</span><div><h3>{p.title}</h3><p>{p.body}</p></div><b>↗</b></article>)}</div>
+   </div>
+  </section>
+  <section className="fx-section fx-explore">
+   <div className="fx-section-heading"><div><span className="fx-kicker">ONE WORKSPACE, MULTIPLE WAYS IN</span><h2>Start where your work <em>starts.</em></h2></div><p>Choose the entry point that fits your task today. Move between discovery, prompt design and practice without losing the finance context.</p></div>
+   <div className="fx-capabilities">{capabilities.map(c=><article key={c.title}><div className="fx-cap-symbol">{c.symbol}</div><h3>{c.title}</h3><p>{c.body}</p><Link href={c.href}>{c.action} <span>↗</span></Link></article>)}</div>
+  </section>
+  <section className="fx-section fx-landscape">
+   <div className="fx-section-heading"><div><span className="fx-kicker">FINANCE KNOWLEDGE, ORGANISED</span><h2>Navigate by <em>discipline.</em></h2></div><p>Explore a structured map of finance functions and topics. Start broad, then narrow down to the specific activity you need to perform.</p></div>
+   <div className="fx-landscape-grid">{financeWorkspaces.slice(0,8).map((w,i)=><Link href={"/explore?search="+encodeURIComponent(w.topics[0])} key={w.slug}><span>0{i+1}</span><div><h3>{w.title}</h3><p>{w.intro}</p><small>{w.topics.slice(0,3).join(" · ")}</small></div><b>↗</b></Link>)}</div>
+   <div className="fx-center"><Link href="/topics" className="fx-outline">Explore all finance workspaces <span>→</span></Link></div>
+  </section>
+  <section className="fx-section fx-methods">
+   <div className="fx-methods-panel"><div><span className="fx-kicker fx-light">TRUST IS A PRODUCT FEATURE</span><h2>Confidence should come from <em>how the work is done.</em></h2><p>Professional methods help make assumptions, limitations and validation steps explicit. They do not replace source-system controls or qualified review.</p></div><div className="fx-methods-list">{professionalMethods.slice(0,4).map((m,i)=><div key={m.title}><span>0{i+1}</span><b>{m.title}</b><small>{m.use}</small></div>)}</div><Link href="/topics" className="fx-methods-link">Explore professional methods ↗</Link></div>
+  </section>
+  <section className="fx-final"><div><span className="fx-kicker fx-light">MAKE THE NEXT FINANCE TASK CLEARER</span><h2>Bring the work.<br/><em>Build it with intent.</em></h2><p>Start with a question. Leave with a structured approach you can review.</p></div><div><Link href="/studio" className="fx-primary">Open Prompt Studio ↗</Link><Link href="/signup" className="fx-final-secondary">Create your workspace</Link></div></section>
+  <section className="fx-faq"><div><span className="fx-kicker">CLEAR EXPECTATIONS</span><h2>Designed for professional use.</h2></div><div className="fx-faq-list"><details><summary>Does AI Finance make financial decisions?</summary><p>No. It helps structure analysis and finance workflows. People remain responsible for validating results and making decisions.</p></details><details><summary>Can I use confidential financial information?</summary><p>Use only data approved for the service and your organisation's policies. Do not submit personal, customer, employee, bank or confidential financial data unless the service has been approved for that data.</p></details><details><summary>Are generated outputs guaranteed to be correct?</summary><p>No. AI-generated content can be incomplete or incorrect. Verify source data, calculations, assumptions and conclusions independently.</p></details></div></section>
+  <p className="fx-disclaimer">AI Finance is a professional productivity and learning workspace. It is not a system of record and does not approve or execute financial transactions. Verify outputs against authoritative source data, organisational policies and applicable standards. Use synthetic or approved data only.</p>
+ </main>
+}
