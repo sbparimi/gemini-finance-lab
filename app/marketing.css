@@ -129,3 +129,134 @@
 }
 @media(max-width:420px){.af-tool-grid{grid-template-columns:1fr}.af-proof{display:grid;grid-template-columns:1fr 1fr}.af-proof i{display:none}.af-input b{font-size:9px}.af-output{gap:7px;padding:10px}.af-output b{font-size:8px}.af-final h2{font-size:34px}}
 @media(prefers-reduced-motion:reduce){.af-home *,.af-site-header *,.af-footer *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* Readability and visual hierarchy corrections requested from visual review */
+.af-eyebrow,.af-kicker{font-size:12px;letter-spacing:1.7px}
+.af-proof{gap:17px;margin-top:42px}
+.af-proof span{font-size:13px;color:#d0cadd}
+.af-proof b{font-size:23px}
+.af-product-top{height:62px}
+.af-product-top>b{font-size:12px}
+.af-product-top small{font-size:9px}
+.af-status{font-size:10px}
+.af-product-body{padding:31px 32px 28px}
+.af-product-caption,.af-product-label{font-size:10px;letter-spacing:1.4px}
+.af-product-body h2{font-size:27px}
+.af-input{padding:16px 17px}
+.af-input small{font-size:9px}
+.af-input b{font-size:13px}
+.af-product-label{margin:25px 0 13px}
+.af-stages>div{min-height:116px;padding:14px 12px}
+.af-stages>div>span{width:27px;height:27px;font-size:11px}
+.af-stages>div>b{font-size:14px;margin-top:11px}
+.af-stages>div>small{font-size:11px;line-height:1.5}
+.af-stages>i{font-size:17px}
+.af-output{gap:14px;padding:17px}
+.af-output span{font-size:9px;letter-spacing:.7px}
+.af-output b{font-size:11px;line-height:1.45}
+.af-float{padding:14px 17px}
+.af-float b{font-size:12px}
+.af-float small{font-size:11px}
+.af-discipline-bar{min-height:100px;gap:clamp(20px,3vw,42px)}
+.af-discipline-bar>span{font-size:11px}
+.af-discipline-bar>b{font-size:13px}
+.af-section-head h2,.af-method h2{font-size:clamp(39px,4.2vw,60px)}
+.af-section-head>p{font-size:16px;line-height:1.75}
+.af-principles article{min-height:260px;padding:30px}
+.af-principles article>span{font-size:16px}
+.af-principles h3{font-size:23px;margin:36px 0 13px}
+.af-principles p{font-size:15px;line-height:1.75}
+.af-showcase-list>div{padding:22px}
+.af-showcase-list>div>span{font-size:23px}
+.af-showcase-list b{font-size:16px}
+.af-showcase-list small{font-size:13px}
+.af-review-head span{font-size:10px}
+.af-review-head b{font-size:9px}
+.af-review-card h3{font-size:26px}
+.af-review-card>p{font-size:13px}
+.af-review-row{font-size:14px;padding:15px 0}
+.af-review-row b{font-size:11px}
+.af-review-foot{font-size:12px}
+.af-workspace-card{min-height:295px;padding:27px}
+.af-workspace-card>div span{font-size:10px}
+.af-workspace-card h3{font-size:22px}
+.af-workspace-card p{font-size:14px;line-height:1.75}
+.af-workspace-card>small{font-size:11px;line-height:1.6}
+.af-workspace-card>strong{font-size:12px}
+.af-section-head .af-kicker,.af-usecase-copy .af-kicker{font-size:12px}
+.af-usecase-copy h2{font-size:clamp(42px,4.4vw,62px)}
+.af-usecase-copy>p{font-size:15px;line-height:1.8}
+.af-usecase-cards article{padding:23px 25px}
+.af-usecase-cards article>span{font-size:10px}
+.af-usecase-cards article>small{font-size:9px}
+.af-usecase-cards h3{font-size:19px}
+.af-usecase-cards p{font-size:13px;line-height:1.7}
+.af-method>div:first-child>p{font-size:15px;line-height:1.8}
+.af-method-list b{font-size:13px}
+.af-method-list small{font-size:11px}
+.af-tool-grid>a{min-height:235px;padding:25px}
+.af-tool-grid b{font-size:17px}
+.af-tool-grid p{font-size:13px;line-height:1.75}
+.af-tool-grid i{font-size:12px}
+.af-final h2{font-size:clamp(37px,3.9vw,52px)}
+.af-final p{font-size:14px}
+.af-disclaimer{font-size:12px;line-height:1.8}
+.af-footer p{font-size:13px}
+.af-footer>div a{font-size:12px}
+/* Prompt Studio: accessible form typography and high-emphasis primary action */
+.container{max-width:1320px;padding:58px 32px 88px}
+.container .page-title{font-size:clamp(36px,4vw,52px);line-height:1.12;letter-spacing:-1.7px}
+.container .lead{font-size:16px;line-height:1.75;max-width:900px}
+.container .card{padding:28px;border-radius:17px}
+.container .card h2{font-size:22px;line-height:1.3}
+.container .meta{font-size:13px;line-height:1.55}
+.container .field{font-size:15px;line-height:1.65;padding:15px 16px}
+.container textarea.field{min-height:185px!important}
+.container .footer-note{font-size:12px;line-height:1.7}
+.container .link{font-size:14px;font-weight:750;color:#5941a4}
+.container .tag{font-size:12px;padding:8px 11px;border-radius:7px}
+.studio-generate-button{width:100%;min-height:60px;padding:16px 24px;border:1px solid #33245f;border-radius:11px;background:linear-gradient(135deg,#302052 0%,#211638 100%);color:#fff;font-size:16px;line-height:1.3;font-weight:850;letter-spacing:.1px;box-shadow:0 9px 22px #25183c26;transition:transform .18s,box-shadow .18s,background .18s}
+.studio-generate-button:hover:not(:disabled){transform:translateY(-2px);background:linear-gradient(135deg,#453078,#2b1d4b);box-shadow:0 13px 28px #25183c38}
+.studio-generate-button:focus-visible{outline:3px solid #bba8ff;outline-offset:3px}
+.studio-generate-button:disabled{opacity:.48;cursor:not-allowed;box-shadow:none}
+.studio-voice-row{margin-top:13px}
+.studio-voice-row .btn{min-height:42px;padding:10px 15px;font-size:13px}
+@media(max-width:760px){
+ .af-eyebrow,.af-kicker{font-size:10px}
+ .af-proof{display:flex;gap:10px}
+ .af-proof span{font-size:10px}
+ .af-proof b{font-size:18px}
+ .af-discipline-bar>b{font-size:10px}
+ .af-section-head h2,.af-method h2{font-size:38px}
+ .af-section-head>p{font-size:14px}
+ .af-principles h3{font-size:20px}
+ .af-principles p{font-size:14px}
+ .af-product-body{padding:20px 17px}
+ .af-product-body h2{font-size:21px}
+ .af-product-caption,.af-product-label{font-size:9px}
+ .af-input b{font-size:11px}
+ .af-stages>div{grid-template-columns:29px 1fr;min-height:0;padding:11px}
+ .af-stages>div>b{font-size:13px}
+ .af-stages>div>small{font-size:10px}
+ .af-output span{font-size:7px}
+ .af-output b{font-size:9px}
+ .af-float b{font-size:10px}
+ .af-float small{font-size:9px}
+ .af-review-card h3{font-size:21px}
+ .af-review-row{font-size:12px}
+ .af-review-row b{font-size:10px}
+ .af-workspace-card h3{font-size:20px}
+ .af-workspace-card p{font-size:13px}
+ .af-usecase-copy h2{font-size:40px}
+ .af-usecase-copy>p{font-size:14px}
+ .af-usecase-cards h3{font-size:17px}
+ .af-usecase-cards p{font-size:12px}
+ .af-tool-grid b{font-size:14px}
+ .af-tool-grid p{font-size:12px}
+ .container{padding:36px 17px 65px}
+ .container .page-title{font-size:34px}
+ .container .lead{font-size:14px}
+ .container .card{padding:19px}
+ .studio-generate-button{min-height:56px;font-size:15px}
+}
