@@ -1,6 +1,5 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import Link from "next/link";
+import SiteChrome from "@/components/site-chrome";
 export const metadata:Metadata={title:"AI Finance Studio | Professional Finance Prompt Workspace",description:"AI-assisted finance workflows and professional prompts for banking, accounting, treasury, FP&A and audit."};
-const nav=[["Discover","/explore"],["Finance topics","/topics"],["Prompt Studio","/studio"],["Learning paths","/units"],["Simulations","/simulations"],["Projects","/projects"]];
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><header className="saas-header"><Link href="/" className="saas-brand"><span className="brand-symbol">F</span><span>AI <span className="brand-light">Finance</span><small>INTELLIGENCE / FINANCE WORKSPACE</small></span></Link><nav>{nav.map(([n,h])=><Link href={h} key={h}>{n}</Link>)}</nav><div className="header-actions"><Link href="/login" className="header-auth-link">Sign in</Link><Link href="/signup" className="header-cta">Create account ↗</Link></div></header>{children}<footer className="saas-footer"><div className="saas-brand"><span className="brand-symbol">F</span><span>AI <span className="brand-light">Finance</span><small>INTELLIGENCE / FINANCE WORKSPACE</small></span></div><span>AI assists. Google Sheets calculates. Finance professionals verify.</span><span>Educational use · Synthetic data only</span></footer></body></html>}
+export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><SiteChrome>{children}</SiteChrome></body></html>}
