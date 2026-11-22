@@ -51,7 +51,8 @@ export default function IntelligentStudio() {
         <h2>Your finance request</h2>
         <label className="meta" htmlFor="finance-brief">Describe the problem or outcome <span style={{color:"#b54747"}}>Required · minimum 12 characters</span></label>
         <textarea id="finance-brief" className="field" style={{width:"100%",minHeight:170,margin:"8px 0 10px"}} placeholder="Example: Our enterprise DSO increased by 12 days this quarter. Identify the drivers, distinguish billing and dispute issues from customer payment behaviour, and prepare a weekly action plan." value={brief} onChange={e=>setBrief(e.target.value)} />
-        <div style={{display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}}>
+        <button className="studio-generate-button" style={{marginTop:12,cursor:"pointer"}} disabled={brief.trim().length<12||loading} onClick={generate}>{loading?"Classifying · generating · reviewing…":"Generate and evaluate prompt ↗"}</button>
+        <div className="studio-voice-row" style={{display:"flex",gap:12,alignItems:"center",flexWrap:"wrap"}}>
           <button type="button" className="btn" onClick={dictate}>Use voice input</button><span className="meta" aria-live="polite">{voiceStatus}</span>
         </div>
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:24}}>
@@ -64,7 +65,7 @@ export default function IntelligentStudio() {
           <label className="meta" htmlFor="constraints">Rules and constraints</label><textarea id="constraints" className="field" style={{width:"100%",minHeight:72,margin:"7px 0 14px"}} value={constraints} onChange={e=>setConstraints(e.target.value)}/>
           <label className="meta" htmlFor="expected-output">Expected deliverable</label><textarea id="expected-output" className="field" style={{width:"100%",minHeight:72,margin:"7px 0 0"}} value={requestedOutput} onChange={e=>setRequestedOutput(e.target.value)}/>
         </div>}
-        <button className="btn" style={{marginTop:22,cursor:"pointer",opacity:brief.trim().length>=12&&!loading?1:.5}} disabled={brief.trim().length<12||loading} onClick={generate}>{loading?"Classifying · generating · reviewing…":"Generate and evaluate prompt ↗"}</button>
+
         <p className="footer-note" style={{marginTop:12}}>Your request is sent to the configured server-side Gemini API for processing. Do not submit personal, customer, employee, bank or confidential financial data unless the service has been approved for that data.</p>
         {error&&<div className="notice" role="alert" style={{marginTop:14}}>{error}</div>}
       </section>
